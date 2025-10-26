@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('applications', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('jop_id');
+            $table->unsignedBigInteger('job_id');
             $table->string('status')->default('pending');
             $table->timestamps();
         });

@@ -23,6 +23,14 @@ use Illuminate\Http\Request;
  *     scheme="bearer",
  *     bearerFormat="JWT"
  * )
+ *
+ * @OA\SecurityScheme(
+ *     securityScheme="sanctum",
+ *     type="apiKey",
+ *     description="Entrez le token au format: Bearer {token}",
+ *     name="Authorization",
+ *     in="header"
+ * )
  */
 
 class AuthController extends Controller

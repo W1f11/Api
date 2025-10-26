@@ -25,12 +25,12 @@ class ApplicationController extends Controller
      *     @OA\Response(response=401, description="Non authentifié")
      * )
      */
-    //lister toutes les condidatures
-    public function index()
+    // lister toutes les candidatures de l'utilisateur connecté
+    public function index(Request $request)
     {
         $applications = Application::where('user_id', $request->user()->id)
-        ->with('job')
-        ->get();
+            ->with('job')
+            ->get();
         return response()->json($applications);
     }
 
@@ -58,16 +58,18 @@ class ApplicationController extends Controller
      */
     public function store(Request $request, Job $job)
     {
-        //verifier si l'utilisateur si déja postuler à cette offre
-        if(Application::where('user_id', $request->user()->id)->where('job_id', $request->$job->id)->exists()){
-            return response()->json(['message' => 'Vous avez déjà postulé à cette offre']);
+        // vérifier si l'utilisateur a déjà postulé à cette offre
+        if (Application::where('user_id', $request->user()->id)->where('job_id', $job->id)->exists()) {
+            return response()->json(['message' => 'Vous avez déjà postulé à cette offre'], 400);
         }
+
         $application = Application::create([
             'user_id' => $request->user()->id,
-            'job_id' => $request->job()->id,
-            'status'=> 'pending',
+            'job_id' => $job->id,
+            'status' => 'pending',
         ]);
-        return  response()->json($application);
+
+        return response()->json($application, 201);
     }
 
     /**
@@ -97,13 +99,16 @@ class ApplicationController extends Controller
      */
 
 
-    //lister les candidatures pour un job (employer ou admin)
-    public function jobApplications(Request $request, Job $job){
-        if($request->user()->role !== 'admin' && $request->user()->id !== $job->user_id){
-            return response()->json(['message' => 'Accès refusé']);
-
-            return response()->json($job->applications()->width('user')->get());
+    // lister les candidatures pour un job (employeur ou admin)
+    public function jobApplications(Request $request, Job $job)
+    {
+        // autorisation : seul l'admin ou l'employeur propriétaire de l'offre peut voir les candidatures
+        if ($request->user()->role !== 'admin' && $request->user()->id !== $job->user_id) {
+            return response()->json(['message' => 'Accès refusé'], 403);
         }
+
+        $applications = $job->applications()->with('user')->get();
+        return response()->json($applications);
     }
 
 

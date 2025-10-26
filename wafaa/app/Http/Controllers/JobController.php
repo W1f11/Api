@@ -12,6 +12,7 @@ class JobController extends Controller
      *     summary="Lister toutes les offres d'emploi",
      *     description="Retourne la liste complète des offres d'emploi disponibles.",
      *     tags={"Offres d'emploi"},
+    *     security={{"bearerAuth":{}}},
      *     @OA\Response(
      *         response=200,
      *         description="Liste des offres récupérée avec succès",
@@ -73,7 +74,7 @@ class JobController extends Controller
      * Display the specified resource.
      */
     //voir une offre 
-    public function show(string $id)
+    public function show(Job $job)
     {
         return response()->json($job);
     }
@@ -107,10 +108,10 @@ class JobController extends Controller
      * )
      */
     // mettre à jour à une offre
-    public function update(Request $request, Job $jpb)
+    public function update(Request $request, Job $job)
     {
         if($request->user()->role !== 'admin' && $request->user()->id !== $job->user_id){
-            return response()->json(['message' => 'Accès refusé']);
+            return response()->json(['message' => 'Accès refusé'], 403);
         }
 
         $job->update($request->all());
@@ -137,11 +138,10 @@ class JobController extends Controller
      * )
      */
     // Supprimer une offre
-    public function destroy(string $id)
+    public function destroy(Request $request, Job $job)
     {
         if($request->user()->role !== 'admin' && $request->user()->id !== $job->user_id) {
-            return response()->json(['message' => 'Accès refusé']);
-        
+            return response()->json(['message' => 'Accès refusé'], 403);
         }
         $job->delete();
         return response()->json(['message' => 'Offre supprimée']);
