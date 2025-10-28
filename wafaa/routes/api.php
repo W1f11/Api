@@ -31,6 +31,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/jobs', [JobController::class, 'index']); // affiche tous les jobs
     Route::get('/jobs/search', [JobController::class, 'search']);
     Route::post('/jobs', [JobController::class, 'store']); // création de job (si employer)
+    Route::put('/jobs/{job}', [JobController::class, 'update']); // mise à jour d'une offre
+    Route::delete('/jobs/{job}', [JobController::class, 'destroy']); // suppression d'une offre
 
     //  Applications
     Route::post('/jobs/{job}/apply', [ApplicationController::class, 'store']);

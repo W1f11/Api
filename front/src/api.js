@@ -1,4 +1,3 @@
-// small helper to call API with token
 export async function apiFetch(path, options = {}, token) {
   // allow overriding the API base URL via Vite env var VITE_API_BASE
   const base = typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_API_BASE
@@ -17,14 +16,12 @@ export async function apiFetch(path, options = {}, token) {
   try {
     const data = text ? JSON.parse(text) : null;
     if (!res.ok) {
-      // make error informative for frontend debugging
       console.error('apiFetch error', { path, status: res.status, data });
       throw { status: res.status, data };
     }
     return data;
   } catch (e) {
     if (e && e.status) throw e;
-    // non-json response
     if (!res.ok) throw { status: res.status, data: text };
     return text;
   }

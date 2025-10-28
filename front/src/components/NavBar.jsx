@@ -12,6 +12,7 @@ const NavBar = () => {
           <>
             <Link to="/jobs" className="text-white">Offres</Link>
             <Link to="/applications" className="text-white">Mes candidatures</Link>
+            <Link to="/employer" className="text-white">Espace employeur</Link>
             <button onClick={logout} className="text-white">Se déconnecter</button>
           </>
         ) : (
