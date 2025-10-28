@@ -48,7 +48,6 @@ export default function EmployerDashboard() {
       if (payload.salary && !isNaN(payload.salary)) payload.salary = Number(payload.salary);
 
       if (editingOffer) {
-        // update existing job
         const res = await apiFetch(`/api/jobs/${editingOffer}`, { method: "PUT", body: JSON.stringify(payload) }, token);
         const updated = res.data || res;
         setOffers((prev) => prev.map((o) => (o.id === updated.id ? updated : o)));

@@ -20,9 +20,13 @@ const Register = () => {
         method: 'POST',
         body: JSON.stringify({ name, email, password, password_confirmation: passwordConfirm }),
       });
+
+      
       const tok = data?.token || data?.plainTextToken || data?.access_token || (typeof data === 'string' ? data : null);
       if (!tok) throw { data, message: 'Token introuvable dans la réponse d\'inscription' };
       saveAuth(tok, null);
+
+
       try {
         const me = await apiFetch('/api/me', {}, tok);
         saveAuth(tok, me);
@@ -33,6 +37,7 @@ const Register = () => {
       navigate('/jobs');
     } catch (e) {
       console.error('register failed', e);
+
       const msg = e?.data?.message || (e?.data ? JSON.stringify(e.data) : e?.message) || "Erreur d'inscription";
       setError(msg);
     }

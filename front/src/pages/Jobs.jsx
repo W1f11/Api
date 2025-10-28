@@ -39,6 +39,14 @@ const Jobs = () => {
           <li key={j.id} className="mb-3 p-3 bg-white/5 rounded">
             <h3 className="text-lg">{j.title}</h3>
             <p className="text-sm opacity-80">{j.description}</p>
+
+            {j.location && (
+              <p className="text-sm mt-1">📍 {j.location}</p>
+            )}
+
+            {j.salary !== undefined && j.salary !== null && j.salary !== '' && (
+              <p className="text-sm font-semibold mt-1">Salaire: {j.salary}</p>
+            )}
           </li>
         ))}
       </ul>
