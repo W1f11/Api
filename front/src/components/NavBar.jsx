@@ -11,22 +11,36 @@ const NavBar = () => {
       <div className="flex items-center gap-4">
         {isAuthenticated ? (
           <>
-            <Link to="/jobs" className="text-white">Offres</Link>
-            <Link to="/applications" className="text-white">Mes candidatures</Link>
+            <Link to="/jobs" className="text-blue">Offres</Link>
+            <Link to="/applications" className="text-blue">Mes candidatures</Link>
             {/* show employer space only to users with role 'employer' or 'admin' */}
             {user && (user.role === 'employer' || user.role === 'admin') && (
-              <Link to="/employer" className="text-white">Espace employeur</Link>
+              <Link to="/employer" className="text-blue">Espace employeur</Link>
             )}
             {user && user.role === 'admin' && (
-              <Link to="/admin" className="text-white">Espace admin</Link>
+              <Link to="/admin" className="text-blue">Espace admin</Link>
             )}
-            <button onClick={logout} className="text-white">Se déconnecter</button>
+            <button onClick={logout} className="text-blue">Se déconnecter</button>
           </>
         ) : (
-          <>
-            <Link to="/login" className="text-white">Connexion</Link>
-            <Link to="/register" className="text-white">Inscription</Link>
-          </>
+          <div className="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-sm shadow-sm z-50">
+  <div className="container mx-auto px-4 py-3">
+    <div className="flex justify-end space-x-4">
+      <Link 
+        to="/login" 
+        className="bg-transparent text-gray-700 px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-50 transition-colors duration-200 font-medium font-['Roboto']"
+      >
+        Connexion
+      </Link>
+      <Link 
+        to="/register" 
+        className="bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors duration-200 font-medium font-['Roboto']"
+      >
+        Inscription
+      </Link>
+    </div>
+  </div>
+</div>
         )}
       </div>
     </nav>

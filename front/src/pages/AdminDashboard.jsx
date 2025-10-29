@@ -51,7 +51,7 @@ export default function AdminDashboard() {
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl mb-4">Espace administrateur</h1>
+      <h1 className="text-red-500 text-2xl mb-4">Espace administrateur</h1>
       {loading && <div>Chargement...</div>}
       {error && <div className="text-red-500">{error}</div>}
 

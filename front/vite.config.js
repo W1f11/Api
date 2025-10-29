@@ -1,10 +1,10 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-
+import tailwindcss from '@tailwindcss/vite'
 // Vite config with a dev-time proxy so frontend calls to /api/* are forwarded
 // to the Laravel backend. Adjust target if your backend runs elsewhere.
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(),tailwindcss()],
   server: {
     proxy: {
       '/api': {
